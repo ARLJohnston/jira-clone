@@ -20,6 +20,8 @@
 !flake.nix
 !flake.lock
 
+!.github/workflows/*.yml
+
 # !Makefile
 
 # ...even if they are in subdirectories
