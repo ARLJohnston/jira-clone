@@ -1,9 +1,12 @@
 {
   description = "Jira-clone flake";
 
-  inputs.nixpkgs.url = "nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, pre-commit-hooks }:
     let
       version = builtins.substring 0 1 self.lastModifiedDate;
 
@@ -12,18 +15,33 @@
 
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
-      nixpkgsFor = forAllSystems (system:
-        import nixpkgs {
-          inherit system;
-          overlays = [ (final: prev: { go = prev.go_1_22; }) ];
-        });
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+
     in {
-      devShell = forAllSystems (system:
+      devShells = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};
-        in with pkgs;
-        mkShell {
-          buildInputs = [ go_1_21 gotools go-tools gopls nixpkgs-fmt ];
+        in {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              go_1_22
+              gotools
+              go-tools
+              gopls
+              nixpkgs-fmt
+            ];
+          };
         });
+
+      checks = forAllSystems (system: {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            gofmt.enable = true;
+            govet.enable = true;
+            revive.enable = true;
+          };
+        };
+      });
 
       packages = forAllSystems (system:
         let pkgs = nixpkgsFor.${system};

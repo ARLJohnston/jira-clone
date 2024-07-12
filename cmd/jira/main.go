@@ -1,3 +1,4 @@
+// Package implements the main jira functionality of the backend
 package main
 
 import (
