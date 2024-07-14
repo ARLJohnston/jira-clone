@@ -23,11 +23,12 @@
         in {
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
-              go_1_22
-              gotools
               go-tools
+              go_1_22
               gopls
+              gotools
               nixpkgs-fmt
+              revive
             ];
           };
         });
@@ -37,6 +38,7 @@
           src = ./.;
           hooks = {
             gofmt.enable = true;
+            gotest.enable = true;
             govet.enable = true;
             revive.enable = true;
           };
