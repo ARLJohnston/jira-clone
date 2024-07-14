@@ -1,6 +1,8 @@
 # jira-clone
 Jira clone using Go, gRPC, immutability and HTMX
 
+The prerequisites to running the project are stored in the [./flake.nix]flake devShell buildInputs
+
 ## Workflow
 Nix is used to manage dependencies, run tests and build the project
 
