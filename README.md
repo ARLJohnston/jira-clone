@@ -1,4 +1,5 @@
 # jira-clone
+[![codecov](https://codecov.io/github/ARLJohnston/jira-clone/graph/badge.svg?token=G9YO8HYCDG)](https://codecov.io/github/ARLJohnston/jira-clone)
 Jira clone using Go, gRPC, immutability and HTMX
 
 The prerequisites to running the project are stored in the [./flake.nix]flake devShell buildInputs
