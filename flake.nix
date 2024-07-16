@@ -58,7 +58,8 @@
           docker = pkgs.dockerTools.buildLayeredImage {
             name = "jira-clone";
             tag = "latest";
-            config.Cmd = "${bin}/bin/jira";
+            created = "now";
+            config.Cmd = [ "${bin}/bin/jira" ];
           };
         });
 

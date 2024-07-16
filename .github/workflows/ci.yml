@@ -31,3 +31,7 @@ jobs:
           -coverprofile=coverage.txt
           -covermode atomic
           ./...
+      - name: "Upload coverage report"
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.txt
