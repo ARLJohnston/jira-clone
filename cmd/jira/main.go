@@ -4,29 +4,24 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
+	"time"
 
-	immudb "github.com/codenotary/immudb/pkg/client"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Example struct {
-	ID   int `gorm:"primarykey"`
-	Name string
-}
-
 func main() {
-	opts := immudb.DefaultOptions().WithAddress("127.0.0.1").WithPort(3322)
 
-	client := immudb.NewClient().WithOptions(opts)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
-	// connect with immudb server (user, password, database)
-	err := client.OpenSession(context.Background(), []byte("immudb"), []byte("immudb"), "defaultdb")
-	if err != nil {
-		log.Fatal(err)
-	}
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 
-	// ensure connection is closed
-	defer client.CloseSession(context.Background())
-
+	// Close the client when exiting scope
+	defer func() {
+		if err = client.Disconnect(ctx); err != nil {
+			panic(err)
+		}
+	}()
 	fmt.Printf("connected")
 }

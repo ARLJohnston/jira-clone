@@ -5,4 +5,4 @@ services:
     image: jira-clone:latest
 
   database:
-    image: codenotary/immudb
+    image: mongo
