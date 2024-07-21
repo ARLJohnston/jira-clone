@@ -1,8 +1,9 @@
 # jira-clone
 [![codecov](https://codecov.io/github/ARLJohnston/jira-clone/graph/badge.svg?token=G9YO8HYCDG)](https://codecov.io/github/ARLJohnston/jira-clone)
+
 Jira clone using Go, gRPC, immutability and HTMX
 
-The prerequisites to running the project are stored in the [./flake.nix]flake devShell buildInputs
+The prerequisites to running the project are stored in the [./flake.nix](flake devShell) buildInputs
 
 ## Workflow
 Nix is used to manage dependencies, run tests and build the project
@@ -24,4 +25,11 @@ To build and run the project as a Docker image use:
 nix build .#docker
 docker load < ./result
 docker run jira-clone
+```
+
+To run all services:
+```bash
+nix build .#docker
+docker load < ./result
+docker compose up
 ```

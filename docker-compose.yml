@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  jira-clone:
+    image: jira-clone:latest
+
+  database:
+    image: codenotary/immudb

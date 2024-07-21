@@ -21,6 +21,7 @@
 !flake.lock
 
 !.github/workflows/*.yml
+!docker-compose.yml
 
 # ...even if they are in subdirectories
 !*/
