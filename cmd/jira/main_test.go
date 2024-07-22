@@ -4,33 +4,25 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/testcontainers/testcontainers-go/modules/mongodb"
+	"log"
 	"testing"
-
-	"github.com/docker/go-connections/nat"
-	"github.com/stretchr/testify/assert"
-	"github.com/testcontainers/testcontainers-go"
-	"github.com/testcontainers/testcontainers-go/wait"
 )
 
 func TestMain(t *testing.T) {
 	ctx := context.Background()
-
-	port, err := nat.NewPort("", "27017")
-	assert.NoError(t, err)
-
-	req := testcontainers.ContainerRequest{
-		Image:        "mongo:latest",
-		ExposedPorts: []string{string(port)},
-		WaitingFor:   wait.ForListeningPort(port),
+	mongodbContainer, err := mongodb.Run(ctx, "mongo:6")
+	if err != nil {
+		log.Fatalf("failed to start container: %s", err)
 	}
 
-	fmt.Println("Request succeeded")
-
-	_, err = testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
-		ContainerRequest: req,
-		Started:          true,
-	})
-	assert.NoError(t, err)
+	// Clean up the container
+	defer func() {
+		if err := mongodbContainer.Terminate(ctx); err != nil {
+			log.Fatalf("failed to terminate container: %s", err)
+		}
+	}()
+	fmt.Printf("connected")
 
 	// endpoint, err := container.Endpoint(ctx, "")
 	// assert.NoError(t, err)

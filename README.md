@@ -14,6 +14,11 @@ nix develop
 ```
 This installs Go development tools (go, gopls, staticcheck)
 
+If dependencies are missing use:
+```bash
+gomod2nix generate
+```
+
 To build and run the project as a binary use:
 ```bash
 nix build .#bin
