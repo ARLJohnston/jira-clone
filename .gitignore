@@ -21,6 +21,7 @@
 !flake.lock
 
 !.github/workflows/*.yml
+!Dockerfile
 !docker-compose.yml
 !gomod2nix.toml
 

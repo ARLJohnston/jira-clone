@@ -31,6 +31,9 @@
           vendorHash = null;
           modules = ./gomod2nix.toml;
         };
+      in {
+        packages = {
+          bin = bin;
 
         docker = pkgs.dockerTools.buildImage {
           name = "jira-clone";
@@ -38,27 +41,10 @@
           created = "now";
           config.Cmd = [ "${bin}/bin/jira" ];
         };
-
-        go-test = pkgs.stdenv.mkDerivation {
-          name = "go-test";
-          src = ./.;
-          doCheck = true;
-          nativeBuildInputs = with pkgs; [ docker go_1_22 ];
-          checkPhase = ''
-            go test ./...
-          '';
         };
-
-      in {
-        packages = {
-          bin = bin;
-          docker = docker;
-        };
-
-        checks = { inherit go-test; };
 
         devShell = pkgs.mkShell {
-          packages = [ pkgs.gomod2nix ];
+          packages = [ pkgs.gomod2nix pkgs.act ];
 
           buildInputs = with pkgs; [
             go-tools
@@ -67,9 +53,6 @@
             gotools
             nixpkgs-fmt
             revive
-            mongodb
-            mongodb-compass
-            mongodb-tools
           ];
         };
 
