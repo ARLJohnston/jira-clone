@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 
     gomod2nix = {
       url = "github:nix-community/gomod2nix";
@@ -13,7 +12,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, pre-commit-hooks, gomod2nix }:
+  outputs = { self, nixpkgs, flake-utils, gomod2nix }:
     (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   jira-clone:
-    image: jira-clone:latest
+    image: ghcr.io/arljohnston/jira-clone:latest
 
   database:
     image: mongo

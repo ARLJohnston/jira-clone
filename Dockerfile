@@ -12,5 +12,6 @@ FROM builder AS run-tests
 RUN go test -v ./...
 
 FROM alpine
+LABEL org.opencontainers.image.source https://github.com/arljohnston/jira-clone
 COPY --from=builder /app /
 CMD ["/jira"]
